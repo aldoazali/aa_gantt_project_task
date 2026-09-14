@@ -12,5 +12,7 @@
     'pre_init_hook': 'pre_init_hook',
     'installable': True,
     'application': False,
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
+    'price': 0,
+    'currency': 'USD',
 }
