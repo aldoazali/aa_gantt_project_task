@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_task_form2_aa_gantt_dates" model="ir.ui.view">
+        <field name="name">project.task.form.aa_gantt.dates</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <!-- Stack start above deadline (standard form is a 2-col group). -->
+            <xpath expr="//label[@for='date_deadline']" position="before">
+                <label for="planned_date_begin" string="Planned Start"/>
+                <div class="d-inline-flex w-100">
+                    <field name="planned_date_begin"/>
+                </div>
+            </xpath>
+            <xpath expr="//label[@for='date_deadline']" position="attributes">
+                <attribute name="string">Deadline / Planned End</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

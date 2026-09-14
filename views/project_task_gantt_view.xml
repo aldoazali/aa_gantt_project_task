@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Shared aa_gantt view for project.task.
+        Enterprise-aligned fields:
+          date_start = planned_date_begin
+          date_stop  = date_deadline
+        Dependency arrows intentionally omitted in this version.
+    -->
+    <record id="view_project_task_aa_gantt" model="ir.ui.view">
+        <field name="name">project.task.aa_gantt</field>
+        <field name="model">project.task</field>
+        <field name="type">aa_gantt</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <aa_gantt
+                string="Planning"
+                date_start="planned_date_begin"
+                date_stop="date_deadline"
+                default_scale="week"
+                scales="day,week,month,year"
+                label_field="name"
+                progress="aa_gantt_progress"
+                color="color"
+                assignee_field="user_ids"
+                state_field="stage_id"
+                activity="1"
+                readonly_dates="1"
+                create="1"
+            />
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Inject aa_gantt into every main Project task window action.
+         Keep original xml id for All Tasks to avoid unique(act, mode) clash.
+         ============================================================ -->
+
+    <!-- All Tasks (xml id kept from first install) -->
+    <record id="project.action_view_all_task" model="ir.actions.act_window">
+        <field name="view_mode">list,kanban,aa_gantt,form,calendar,activity,pivot,graph</field>
+    </record>
+    <record id="action_view_task_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.action_view_all_task"/>
+    </record>
+
+    <!-- Tasks (main Tasks menu) -->
+    <record id="project.action_view_task" model="ir.actions.act_window">
+        <field name="view_mode">kanban,list,aa_gantt,form,calendar,pivot,graph,activity</field>
+    </record>
+    <record id="action_view_task_menu_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.action_view_task"/>
+    </record>
+
+    <!-- My Tasks -->
+    <record id="project.action_view_my_task" model="ir.actions.act_window">
+        <field name="view_mode">kanban,list,aa_gantt,form,calendar,activity,pivot,graph</field>
+    </record>
+    <record id="action_view_my_task_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.action_view_my_task"/>
+    </record>
+
+    <!-- Project → all its tasks -->
+    <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+        <field name="view_mode">kanban,list,aa_gantt,form,calendar,pivot,graph,activity</field>
+    </record>
+    <record id="act_project_project_2_project_task_all_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.act_project_project_2_project_task_all"/>
+    </record>
+
+    <!-- Sub-tasks -->
+    <record id="project.project_task_action_sub_task" model="ir.actions.act_window">
+        <field name="view_mode">list,kanban,aa_gantt,form,calendar,pivot,graph,activity</field>
+    </record>
+    <record id="project_task_action_sub_task_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.project_task_action_sub_task"/>
+    </record>
+
+    <!-- Tasks from milestone -->
+    <record id="project.action_view_task_from_milestone" model="ir.actions.act_window">
+        <field name="view_mode">kanban,list,aa_gantt,calendar,pivot,graph,activity,form</field>
+    </record>
+    <record id="action_view_task_from_milestone_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.action_view_task_from_milestone"/>
+    </record>
+
+    <record id="project.project_milestone_action_view_tasks" model="ir.actions.act_window">
+        <field name="view_mode">kanban,list,aa_gantt,form,calendar,pivot,graph,activity</field>
+    </record>
+    <record id="project_milestone_action_view_tasks_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.project_milestone_action_view_tasks"/>
+    </record>
+
+    <!-- Tasks from partner -->
+    <record id="project.project_task_action_from_partner" model="ir.actions.act_window">
+        <field name="view_mode">list,kanban,aa_gantt,form,calendar,pivot,graph,activity</field>
+    </record>
+    <record id="project_task_action_from_partner_aa_gantt_inject" model="ir.actions.act_window.view">
+        <field name="sequence">25</field>
+        <field name="view_mode">aa_gantt</field>
+        <field name="view_id" ref="view_project_task_aa_gantt"/>
+        <field name="act_window_id" ref="project.project_task_action_from_partner"/>
+    </record>
+
+</odoo>
