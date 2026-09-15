@@ -1,6 +1,6 @@
 {
     'name': 'AA Gantt — Project Tasks',
-    'version': '19.0.1.4',
+    'version': '18.0.1.5.0',
     'summary': 'Wires aa_gantt onto all Project task menus (Enterprise-style planned dates)',
     'author': 'Aldo A.',
     'category': 'Project',
